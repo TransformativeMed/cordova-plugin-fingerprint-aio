@@ -62,8 +62,16 @@ public class BiometricActivity extends AppCompatActivity {
           case LOAD_SECRET:
             authenticateToDecrypt();
             return;
+          case DISMISS:
+              dismiss();
+              return;
         }
         throw new CryptoException(PluginError.BIOMETRIC_ARGS_PARSING_FAILED);
+    }
+
+    public void dismiss(){
+        mBiometricPrompt.cancelAuthentication();
+        finishWithSuccess();
     }
 
     private void authenticateToEncrypt(boolean invalidateOnEnrollment) throws CryptoException {

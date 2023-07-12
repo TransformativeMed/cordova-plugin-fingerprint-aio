@@ -64,4 +64,15 @@ Fingerprint.prototype.loadBiometricSecret = function (params, successCallback, e
   );
 };
 
+Fingerprint.prototype.dismiss = function(successCallback, errorCallback, optionalParams){
+  cordova.exec(
+    successCallback,
+    errorCallback,
+    "Fingerprint",
+    "dismiss",
+    [optionalParams]
+  );
+};
+
+
 module.exports = new Fingerprint();

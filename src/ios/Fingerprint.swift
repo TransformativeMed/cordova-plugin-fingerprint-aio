@@ -185,6 +185,13 @@ enum PluginError:Int {
         justAuthenticate(command)
     }
 
+    @objc(dismiss:)
+    func dismiss(_ command: CDVInvokedUrlCommand){
+        authenticationContext.invalidate();
+        var pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Success");
+        self.commandDelegate.send(pluginResult, callbackId:command.callbackId)
+    }
+
     @objc(registerBiometricSecret:)
     func registerBiometricSecret(_ command: CDVInvokedUrlCommand){
         let data  = command.arguments[0] as AnyObject?;

@@ -57,8 +57,15 @@ public class Fingerprint extends CordovaPlugin {
             executeIsAvailable();
             return true;
 
+         } else if ("dismiss".equals(action)){
+            dismiss(args);
+            return true;
         }
         return false;
+    }
+
+    private  void dismiss(JSONArray args){
+        this.runBiometricActivity(args, BiometricActivityType.DISMISS);
     }
 
     private void executeIsAvailable() {
