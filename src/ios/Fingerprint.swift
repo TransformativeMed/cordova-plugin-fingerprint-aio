@@ -13,6 +13,8 @@ enum PluginError:Int {
     case BIOMETRIC_SECRET_NOT_FOUND = -113
 }
 
+var authenticationContext = LAContext();
+
 @objc(Fingerprint) class Fingerprint : CDVPlugin {
 
     struct ErrorCodes {
@@ -22,7 +24,7 @@ enum PluginError:Int {
 
     @objc(isAvailable:)
     func isAvailable(_ command: CDVInvokedUrlCommand){
-        let authenticationContext = LAContext();
+        
         var biometryType = "finger";
         var errorResponse: [AnyHashable: Any] = [
             "code": 0,
@@ -80,7 +82,7 @@ enum PluginError:Int {
     }
 
     func justAuthenticate(_ command: CDVInvokedUrlCommand) {
-        let authenticationContext = LAContext();
+        
         let errorResponse: [AnyHashable: Any] = [
             "message": "Something went wrong"
         ];
@@ -137,6 +139,7 @@ enum PluginError:Int {
                 self.commandDelegate.send(pluginResult, callbackId:command.callbackId);
             }
         );
+        
     }
 
     func saveSecret(_ secretStr: String, command: CDVInvokedUrlCommand) {
@@ -183,6 +186,13 @@ enum PluginError:Int {
     @objc(authenticate:)
     func authenticate(_ command: CDVInvokedUrlCommand){
         justAuthenticate(command)
+    }
+    
+    @objc(dismiss:)
+    func dismiss(_ command: CDVInvokedUrlCommand){
+        authenticationContext.invalidate();
+        var pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: "Success");
+        self.commandDelegate.send(pluginResult, callbackId:command.callbackId)
     }
 
     @objc(registerBiometricSecret:)
